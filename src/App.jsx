@@ -22,18 +22,18 @@ function App() {
 
     function handleAddProject(projectData) {
         setProjectsState(prevState => {
+            const projectId = crypto.randomUUID()
             const newProject = {
-                id: crypto.randomUUID(),
+                id: projectId,
                 ...projectData,
             }
             return {
                 ...prevState,
+                selectedProjectId: undefined,
                 projects: [...prevState.projects, newProject]
             }
         })
     }
-
-    console.log(projectsState)
 
     if (projectsState.selectedProjectId === null) {
         content = <NewProject onAdd={handleAddProject}/>
@@ -44,7 +44,7 @@ function App() {
 
     return (
         <main className="h-screen my-8 flex gap-8">
-            <Sidebar onStartAddProject={handleStartAddProject}/>
+            <Sidebar onStartAddProject={handleStartAddProject} projects={projectsState.projects}/>
             {content}
         </main>
     );
